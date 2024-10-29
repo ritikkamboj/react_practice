@@ -1,37 +1,17 @@
-// Use Reducer Hook 
+//hae to see the default exports and normal exports
 
-
-
-import React from 'react'
-import { useReducer } from 'react'
+import React from "react";
+import export1, { add as jod, sub as ghata } from "./func1";
+// import export1 from "./func1";
 
 function App() {
-
-  const initialState = 0
-
-  function reducer(state, action) {
-
-    switch (action.type) {
-      case "increment":
-        return state + 1;
-      case "decrement":
-        return state - 1;
-      default:
-        return initialState;
-    }
-
-
-  }
-
-  const [state, dispatch] = useReducer(reducer, initialState)
   return (
     <div>
-      <p> Current Value is : {state}</p>
-      <button onClick={() => dispatch({ type: "increment" })}>Increment </button>
-      <button onClick={() => dispatch({ type: "decrement" })}>Decrement </button>
-      <button onClick={() => dispatch({ type: "reset" })}>Reset</button>
+      <div>{jod()}</div>
+      <div>{ghata()}</div>
+      <div>{export1()}</div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
