@@ -1,23 +1,37 @@
-import React, { createContext, useContext, useState } from "react";
+// Use Reducer Hook 
 
-const valueContext = createContext();
+
+
+import React from 'react'
+import { useReducer } from 'react'
 
 function App() {
 
-  const [value, setValue] = useState(1);
-  return (
-    <valueContext.Provider value={{ value }}>
-      <div>
+  const initialState = 0
 
-        <Comp />
-      </div>
-    </valueContext.Provider>
-  );
+  function reducer(state, action) {
+
+    switch (action.type) {
+      case "increment":
+        return state + 1;
+      case "decrement":
+        return state - 1;
+      default:
+        return initialState;
+    }
+
+
+  }
+
+  const [state, dispatch] = useReducer(reducer, initialState)
+  return (
+    <div>
+      <p> Current Value is : {state}</p>
+      <button onClick={() => dispatch({ type: "increment" })}>Increment </button>
+      <button onClick={() => dispatch({ type: "decrement" })}>Decrement </button>
+      <button onClick={() => dispatch({ type: "reset" })}>Reset</button>
+    </div>
+  )
 }
 
-const Comp = () => {
-  const { value } = useContext(valueContext)
-  return <p> Jai maata di {value}</p>;
-};
-
-export default App;
+export default App
