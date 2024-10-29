@@ -1,15 +1,35 @@
-//hae to see the default exports and normal exports
+// very nice example to understand the use of useMemo Hook
 
 import React from "react";
-import export1, { add as jod, sub as ghata } from "./func1";
-// import export1 from "./func1";
+import { useMemo } from "react";
+import { useState } from "react";
+
+function slowFunction(num) {
+  console.log("slow function runs ");
+
+  // creating a high calculating task
+
+  for (let i = 0; i < 1000000; i++) { }
+  return num * 2;
+}
 
 function App() {
+  const [count, setCount] = useState(2);
+  console.log('rendering happens');
+
+
+  const [input, setInput] = useState();
+
+  const doubleValue = useMemo(() => slowFunction(count), [count]);
+
   return (
     <div>
-      <div>{jod()}</div>
-      <div>{ghata()}</div>
-      <div>{export1()}</div>
+      <p>value of count is : {count}</p>
+      <p>Value of doubleCount : {doubleValue}</p>
+      <button onClick={() => setCount(count + 1)}>
+        Increment
+      </button>
+      <input type="text" placeholder="Enter the text " value={input} onChange={(e) => setInput(e.target.value)} />
     </div>
   );
 }
