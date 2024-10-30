@@ -1,39 +1,27 @@
-//Seeing the use of useCallback hook 
+// using here our custom useFetch hook :
 
-import React, { useCallback, useState } from 'react'
-import Func1 from './Func1'
+import React from 'react'
+import useFetch from './useFetch'
 
 function App() {
 
-  const [count, setCount] = useState(0);
-  const [count2, setCount2] = useState(10);
-  const [adjective, setAdjective] = useState('good');
-
-  const getAdjective = useCallback(
-    () => {
-      return 'grand' + count;
-    },
-    [count],
-  )
+  const { data, isLoading, error } = useFetch("https://jsonplaceholder.typicode.com/posts");
+  console.log(data);
 
 
-  const increase2 = () => {
-    setCount2((prevCount) => prevCount + 1);
+  if (error) {
+    return <div>Error in your code </div>
+
   }
 
-
-  const increase = () => {
-    setCount((prevCount) => prevCount + 1)
+  if (isLoading) {
+    return <div>Loading...</div>
   }
   return (
     <div>
-      <Func1 value={'good'} getAdjective={getAdjective} />
-      <p>Count value is : {count}</p>
-
-      <button onClick={increase}>OnClick</button>
-      <p> Count 2 value is : {count2}</p>
-      <button onClick={increase2}>Click to change 2</button>
-
+      <ul>
+        {data.map((item) => (<li key={item.id}>{item.title}</li>))}
+      </ul>
     </div>
   )
 }
