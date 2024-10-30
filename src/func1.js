@@ -1,14 +1,20 @@
-export function add() {
-    console.log('yeh waala add karega ');
+import React, { memo } from 'react'
 
+function Func1({ value, getAdjective }) {
+    console.log("this component getting rendered ");
+
+    return (
+        <>
+            <div>the valeu is : {value}</div>
+
+            <button onClick={() => getAdjective()}> here we get the value return by function is {getAdjective()}</button>
+
+        </>
+
+
+    )
 }
 
-export function sub() {
-    console.log("yeh waala subtract karega ");
+export default memo(Func1);
 
-}
-
-export default function export1() {
-    console.log("yeh waala export default check karne ke liye ");
-
-}
+// use of memo implies that if we gets new props value then only re render , otherwise remain as it is 

@@ -1,37 +1,41 @@
-// very nice example to understand the use of useMemo Hook
+//Seeing the use of useCallback hook 
 
-import React from "react";
-import { useMemo } from "react";
-import { useState } from "react";
-
-function slowFunction(num) {
-  console.log("slow function runs ");
-
-  // creating a high calculating task
-
-  for (let i = 0; i < 1000000; i++) { }
-  return num * 2;
-}
+import React, { useCallback, useState } from 'react'
+import Func1 from './Func1'
 
 function App() {
-  const [count, setCount] = useState(2);
-  console.log('rendering happens');
+
+  const [count, setCount] = useState(0);
+  const [count2, setCount2] = useState(10);
+  const [adjective, setAdjective] = useState('good');
+
+  const getAdjective = useCallback(
+    () => {
+      return 'grand' + count;
+    },
+    [count],
+  )
 
 
-  const [input, setInput] = useState();
+  const increase2 = () => {
+    setCount2((prevCount) => prevCount + 1);
+  }
 
-  const doubleValue = useMemo(() => slowFunction(count), [count]);
 
+  const increase = () => {
+    setCount((prevCount) => prevCount + 1)
+  }
   return (
     <div>
-      <p>value of count is : {count}</p>
-      <p>Value of doubleCount : {doubleValue}</p>
-      <button onClick={() => setCount(count + 1)}>
-        Increment
-      </button>
-      <input type="text" placeholder="Enter the text " value={input} onChange={(e) => setInput(e.target.value)} />
+      <Func1 value={'good'} getAdjective={getAdjective} />
+      <p>Count value is : {count}</p>
+
+      <button onClick={increase}>OnClick</button>
+      <p> Count 2 value is : {count2}</p>
+      <button onClick={increase2}>Click to change 2</button>
+
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
