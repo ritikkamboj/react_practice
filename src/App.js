@@ -1,27 +1,25 @@
-// using here our custom useFetch hook :
-
-import React from 'react'
-import useFetch from './useFetch'
+import React, { useRef, useState } from 'react'
 
 function App() {
+  const [count, setCount] = useState(0);
+  // but we want to track how many times it get re rendered 
+  // but every time on re render the value of a again set to 0 
 
-  const { data, isLoading, error } = useFetch("https://jsonplaceholder.typicode.com/posts");
-  console.log(data);
+  let a = useRef(0);
+
+  a.current += 1;
+  console.log(a.current);
 
 
-  if (error) {
-    return <div>Error in your code </div>
 
+  function increment() {
+    setCount(count + 1)
   }
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
   return (
     <div>
-      <ul>
-        {data.map((item) => (<li key={item.id}>{item.title}</li>))}
-      </ul>
+      <p>value of count is : {count} the value of current is {a.current}</p>
+      <button onClick={increment}>Click me </button>
     </div>
   )
 }
