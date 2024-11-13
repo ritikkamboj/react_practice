@@ -1,26 +1,24 @@
-import React from 'react'
-import { Provider, useDispatch, useSelector } from 'react-redux'
-import store from './store'
+
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import Contact from './Contact';
+import About from './About';
+
+
+
 
 function App() {
-  const dispatch = useDispatch();
-  const count = useSelector((state) => state);
-
-
   return (
-    <div>
-      <p>Lets see it works or not </p>
-      <p> value of count is : {count}</p>
-      <button onClick={() => dispatch({ type: "increment" })}>Increment </button>
-      <button onClick={() => dispatch({ type: "decrement" })}>Decrement </button>
-    </div>
-  )
+    <BrowserRouter>
+      <nav>
+        <Link to="/"></Link>
+        <Link to="/about">About</Link>
+      </nav>
+      <Routes>
+        <Route path="/" element={<Contact />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-function RootApp() {
-  return <Provider store={store}>
-    <App />
-  </Provider>
-}
-
-export default RootApp;
+export default App;
