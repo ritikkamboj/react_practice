@@ -1,21 +1,9 @@
-import { createStore } from "redux";
+import { applyMiddleware, createStore } from "redux";
+import jokeReducer from "./JokeReducer";
 
-//defining initial state 
-const initialCounter = 0;
+import { thunk } from "redux-thunk"
 
-function countReducer(state = initialCounter, action) {
-    switch (action.type) {
-        case ("increment"):
-            return state + 1;
 
-        case ("decrement"):
-            return state - 1;
-
-        default:
-            return state;
-    }
-}
-
-const store = createStore(countReducer);
+const store = createStore(jokeReducer, applyMiddleware(thunk))
 
 export default store;
