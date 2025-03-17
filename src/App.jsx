@@ -1,22 +1,23 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTodos } from "./redux/slice/todo";
+import { addListener } from "@reduxjs/toolkit";
 
 function App() {
-  const count = useSelector((state) => state.count);
   const dispatch = useDispatch();
+  const state = useSelector((state) => state);
+
+  console.log("state", state);
+
+  if (state.todo.isloading) {
+    return <h1>Loading...</h1>;
+  }
   return (
-    <div>
-      <div>
-        <button onClick={() => dispatch({ type: "decre" })}>-</button>
-        <p>The Value of count is {count}</p>
-        <button onClick={() => dispatch({ type: "incre" })}>+</button>
-        {/* <button onClick={() => dispatch(multiply())}>*</button>
-        <p>
-          Click the below button if you want to incrase the valuw with some
-          specific value{" "}
-        </p>
-        <button onClick={() => dispatch(incrementByAmount(5))}>Surprise</button> */}
-      </div>
+    <div className="App">
+      <button onClick={() => dispatch(fetchTodos())}>Fetch Todos</button>
+      {state.todo.data?.map((e) => (
+        <li>{e.title}</li>
+      ))}
     </div>
   );
 }
