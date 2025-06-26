@@ -1,36 +1,64 @@
-import React, { useMemo, useState } from 'react'
-// we are seeing the use of useMemo hook 
+  import { addListener } from '@reduxjs/toolkit';
+  import React from 'react'
+  // use Callack is easy nd we can easily tackle him later 
 
-function expFunc(num)
-{
-  console.log('function running ')
+  import { useEffect, useState } from "react";
 
-  for(let i=0 ; i<100000000 ; i++)
+  function useFetch(url)
   {
+    const [data, setData] = useState();
+    const [error , setError] = useState();
+    const [loading , setIsloading] = useState(true);
 
+
+    useEffect(()=>{
+
+      const fetchData = async () =>{
+      try{
+          setIsloading(true);
+        const res = await fetch(url);
+        if(!res.ok)
+          throw new Error("something went wrong in fetching the data")
+          const data = await res.json();
+          setData(data);
+      }
+      catch(err){
+
+        console.log(err.message)
+        setError(err.message)
+
+      }
+      finally{
+        setIsloading(false )
+      }
+
+      }
+      fetchData()
+
+    }, [])
+
+
+    return {loading, error, data}
   }
-  return num *2 ;
-}
 
 
+  function App() {
+  const {data , error , loading} = useFetch(`https://jsonplaceholder.typicode.com/post`);
+  if(loading)
+  {
+    return <p>loading....</p>
+  }
 
-function App() {
+  if(error)
+    return <p>error {error} </p>
 
-  const [count , setCount] = useState(0);
-  const [text , setText] = useState("")
+    return (
+      <ul>
+        {
+          data.map((each)=> <li key={each.id}>{each.title}</li>)
+        }
+      </ul>
+    )
+  }
 
-  const doubleValue = useMemo(()=> expFunc(count),[count])
-  // const doubleValue =expFunc(count)
-
-  return (
-    <div>
-      <p>The value of  count is : {count}</p>
-      <p>The value of double count is :{doubleValue}</p>
-
-      <button onClick={()=> setCount(count => count  + 1)}>increase count</button>
-      <input type="text" placeholder='type the text here' value={text} onChange={(e)=> setText(e.target.value)} />
-    </div>
-  )
-}
-
-export default App
+  export default App
