@@ -1,37 +1,34 @@
-import React, { useReducer } from 'react'
-// use Reducer hook 
+import React, { useMemo, useState } from 'react'
+// we are seeing the use of useMemo hook 
 
-
-
-const initialState = {count : 0}
-
-function reducer(state , action)
+function expFunc(num)
 {
-  switch(action.type){
-    case "inc":
-      return {count : state.count + 1}
-    case 'dec':
-      return {count : state.count - 1}
-    case 'reset':
-      return {count : 0}
-    default :
-    throw new Error("mistake kardi ")
-  }
+  console.log('function running ')
 
+  for(let i=0 ; i<100000000 ; i++)
+  {
+
+  }
+  return num *2 ;
 }
+
 
 
 function App() {
 
-  const [state, dispatch] =useReducer(reducer, initialState)
+  const [count , setCount] = useState(0);
+  const [text , setText] = useState("")
+
+  const doubleValue = useMemo(()=> expFunc(count),[count])
+  // const doubleValue =expFunc(count)
+
   return (
     <div>
-      <p>count value is : {state.count}</p>
-      <div>
-        <button onClick={()=> dispatch({type : "inc"})}>+</button>
-        <button onClick={()=> dispatch({type : "dec"})}>-</button>
-        <button onClick={()=> dispatch({type : "reset"})}>RESET</button>
-      </div>
+      <p>The value of  count is : {count}</p>
+      <p>The value of double count is :{doubleValue}</p>
+
+      <button onClick={()=> setCount(count => count  + 1)}>increase count</button>
+      <input type="text" placeholder='type the text here' value={text} onChange={(e)=> setText(e.target.value)} />
     </div>
   )
 }
