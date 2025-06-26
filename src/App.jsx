@@ -1,24 +1,37 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-// using useState using for form input 
+
+// use Effect hook to gets rhe data 
 
 function App() {
 
-  const [name , setName] = useState("");
+  const [data , setData] = useState();
 
-  function handleChange(e){
-    setName(e.target.value);
+  useEffect(()=>{
+    async function fetchData() {
+      const res = await fetch(`https://jsonplaceholder.typicode.com/posts`);
+      const data = await res.json() ;
 
-  }
-  return (
-    <div>
-      <h1>Value input comes below :</h1>
-
-      <input type="text" placeholder='Type your name here ' value={name} onChange={handleChange}/>
+      console.log(data[1])
       
+      setData(data[1]);
+    }
 
-    </div>
-  )
+    fetchData()
+
+  },[])
+
+  // console.log(data ? data : "no found ")
+
+  return (
+   <>
+    <div>App</div>
+  <p>Only fetching the first data </p>
+  <p>{data?.title}</p>
+
+   
+   
+   </>)
 }
 
 export default App
