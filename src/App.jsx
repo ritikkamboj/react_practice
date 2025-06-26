@@ -1,37 +1,43 @@
+// counter stops and play program 
+
 import React, { useEffect, useState } from 'react'
-
-
-// use Effect hook to gets rhe data 
 
 function App() {
 
-  const [data , setData] = useState();
+  const [count , setCount] = useState(0) ;
 
-  useEffect(()=>{
-    async function fetchData() {
-      const res = await fetch(`https://jsonplaceholder.typicode.com/posts`);
-      const data = await res.json() ;
+  const [active , setActive] = useState(true)
 
-      console.log(data[1])
-      
-      setData(data[1]);
-    }
 
-    fetchData()
+    
+  useEffect(() => {
 
-  },[])
+    if(!active) return ;
 
-  // console.log(data ? data : "no found ")
+    const interval = setInterval(()=> setCount((prev)=> prev + 1 ),1000)
+    
+  
+    return () => clearInterval(interval)
+  }, [active])
+  
+
+
+  function toggleButton (){
+    
+    setActive((prev)=> !prev)
+  }
+
+
 
   return (
-   <>
-    <div>App</div>
-  <p>Only fetching the first data </p>
-  <p>{data?.title}</p>
+    <div>
+      <p>Counter value is : {count}</p>
+      <button onClick={toggleButton}>play/Stop</button>
+      <button onClick={()=> setCount(0)}>reset Timer </button>
 
-   
-   
-   </>)
+
+    </div>
+  )
 }
 
 export default App
