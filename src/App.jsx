@@ -1,29 +1,22 @@
 import React, { useState } from 'react'
 
+// using useState using for form input 
 
-// seeing the counter pgram with the help of useState 
 function App() {
 
-  const [count , setCount] = useState(0);
+  const [name , setName] = useState("");
 
-function handleClick()
-{
-  setCount((count)=> count + 1)
-}
-function handleClick2()
-{
-  setCount((count)=> count -1 )
-}
+  function handleChange(e){
+    setName(e.target.value);
 
+  }
   return (
     <div>
-      <h1>Counter is below</h1>
-      <p>Value of counter is : {count}</p>
-      <div>
-         <button onClick={handleClick}>Change Counter </button>
-         <button onClick={handleClick2}>decrease Counte</button>
-      </div>
-     
+      <h1>Value input comes below :</h1>
+
+      <input type="text" placeholder='Type your name here ' value={name} onChange={handleChange}/>
+      
+
     </div>
   )
 }
