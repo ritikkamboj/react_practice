@@ -1,42 +1,58 @@
-// counter stops and play program 
-
-import React, { useEffect, useState } from 'react'
-
-function App() {
-
-  const [count , setCount] = useState(0) ;
-
-  const [active , setActive] = useState(true)
+import React, { createContext, useContext, useState } from 'react'
+// here we practice useContext hook , appliation as theme usage in the prgram 
 
 
-    
-  useEffect(() => {
-
-    if(!active) return ;
-
-    const interval = setInterval(()=> setCount((prev)=> prev + 1 ),1000)
-    
-  
-    return () => clearInterval(interval)
-  }, [active])
-  
+const themeContext = createContext();
 
 
-  function toggleButton (){
-    
-    setActive((prev)=> !prev)
+const Provider = ({ children }) => {
+
+  const [theme, setTheme] = useState('light')
+
+  function toggleTheme() {
+
+    setTheme((prev) => prev === "light" ? "dark" : "light")
+
+
   }
 
+  return <themeContext.Provider value={{ theme, toggleTheme }}>
+    {children}
+  </themeContext.Provider>
+
+}
+
+const ThemeValue = () => {
+
+  const { theme } = useContext(themeContext);
+
+  return <>
+
+    <h1>The value of theme right now is : {theme}</h1>
+
+  </>
+}
 
 
+const ToggleTheme = () => {
+  const { toggleTheme } = useContext(themeContext);
+
+  return <>
+
+    <button onClick={toggleTheme}>change theme </button>
+  </>
+}
+
+
+
+function App() {
   return (
-    <div>
-      <p>Counter value is : {count}</p>
-      <button onClick={toggleButton}>play/Stop</button>
-      <button onClick={()=> setCount(0)}>reset Timer </button>
+    <Provider>
+      <ThemeValue />
+      <ToggleTheme />
 
 
-    </div>
+    </Provider>
   )
 }
 
